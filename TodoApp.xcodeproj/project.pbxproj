@@ -54,14 +54,46 @@
 		AB4A75F51FE8E1F300E2B2BB /* TodoApp */ = {
 			isa = PBXGroup;
 			children = (
-				AB4A75F61FE8E1F300E2B2BB /* AppDelegate.swift */,
-				AB4A75F81FE8E1F300E2B2BB /* ViewController.swift */,
-				AB4A75FA1FE8E1F300E2B2BB /* Main.storyboard */,
+				AB4A760B1FE8E2B300E2B2BB /* Supporting files */,
+				AB4A760A1FE8E2A000E2B2BB /* Models */,
+				AB4A76091FE8E29800E2B2BB /* Controllers */,
+				AB4A76081FE8E28900E2B2BB /* Views */,
 				AB4A75FD1FE8E1F300E2B2BB /* Assets.xcassets */,
-				AB4A75FF1FE8E1F300E2B2BB /* LaunchScreen.storyboard */,
 				AB4A76021FE8E1F400E2B2BB /* Info.plist */,
 			);
 			path = TodoApp;
+			sourceTree = "<group>";
+		};
+		AB4A76081FE8E28900E2B2BB /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				AB4A75FA1FE8E1F300E2B2BB /* Main.storyboard */,
+				AB4A75FF1FE8E1F300E2B2BB /* LaunchScreen.storyboard */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		AB4A76091FE8E29800E2B2BB /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				AB4A75F61FE8E1F300E2B2BB /* AppDelegate.swift */,
+				AB4A75F81FE8E1F300E2B2BB /* ViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		AB4A760A1FE8E2A000E2B2BB /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		AB4A760B1FE8E2B300E2B2BB /* Supporting files */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Supporting files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
