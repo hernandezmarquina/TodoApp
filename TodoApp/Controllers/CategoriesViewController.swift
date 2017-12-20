@@ -10,23 +10,23 @@ import UIKit
 
 class CategoriesViewController: UITableViewController {
     
-    var itemArray = ["item 1", "item 2", "item 3"]
+    var itemArray = [Item]()
     
-    var defaults = UserDefaults.standard
+    let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist")
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        if let items = defaults.array(forKey: "todoListArray") as! [String] {
-            itemArray = items
-        }
+        loadItems()
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell  = tableView.dequeueReusableCell(withIdentifier: "toDoItemCell", for: indexPath)
+        let item = itemArray[indexPath.row]
         
-        cell.textLabel?.text = itemArray[indexPath.row]
+        cell.accessoryType  = item.done ? .checkmark : .none
+        cell.textLabel?.text = itemArray[indexPath.row].title
         
         return cell
     }
@@ -37,14 +37,16 @@ class CategoriesViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark {
-            tableView.cellForRow(at: indexPath)?.accessoryType = .none
-        } else{
-            tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
-        }
+        let tableCell = tableView.cellForRow(at: indexPath)
+        let item = itemArray[indexPath.row]
         
+        item.done = !item.done
+        tableCell?.accessoryType  = item.done ? .checkmark : .none
         
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        saveItems()
+        
     }
     
     
@@ -61,13 +63,13 @@ class CategoriesViewController: UITableViewController {
         
         let action = UIAlertAction(title: "Add Item", style: .default) {(action) in
             
-            let newitem = textField.text ?? "New Item"
+            let newitem = Item()
+            
+            newitem.title = textField.text ?? "New Item"
             
             self.itemArray.append(newitem)
             
-            self.defaults.set(self.itemArray, forKey: "todoListArray")
-            
-            self.tableView.reloadData()
+            self.saveItems()
         }
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) {(action) in
@@ -79,6 +81,39 @@ class CategoriesViewController: UITableViewController {
         alertContoller.addAction(cancelAction)
         
         present(alertContoller, animated: true, completion: nil)
+        
+    }
+    
+    func saveItems(){
+        let encoder = PropertyListEncoder()
+        
+        do {
+            
+            let data = try encoder.encode(itemArray)
+            try data.write(to: dataFilePath!)
+            
+        } catch {
+            print("Error encoding item array, \(error)")
+        }
+        
+        tableView.reloadData()
+    }
+    
+    func loadItems(){
+        
+        if let data = try? Data(contentsOf: dataFilePath!) {
+            
+            let decoder = PropertyListDecoder()
+            
+            do {
+                
+            itemArray = try decoder.decode([Item].self, from: data)
+                
+            } catch {
+                
+                print("Error decoding item array \(error)")
+            }
+        }
         
     }
     
