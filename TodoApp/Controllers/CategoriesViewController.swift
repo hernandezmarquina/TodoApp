@@ -16,6 +16,8 @@ class CategoriesViewController: UITableViewController {
     var fetchedResultsController : NSFetchedResultsController<Category>!
     var fetchRequest : NSFetchRequest<Category>!
     
+    var selectedCategory: Category?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -72,6 +74,16 @@ class CategoriesViewController: UITableViewController {
         
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        selectedCategory = fetchedResultsController.object(at: indexPath)
+        
+        performSegue(withIdentifier: "goToList", sender: self)
+        
+    }
+    
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         
         let alertContoller = UIAlertController(title: "Add New Category", message: "", preferredStyle: .alert)
@@ -96,6 +108,16 @@ class CategoriesViewController: UITableViewController {
         alertContoller.addAction(cancelAction)
         
         present(alertContoller, animated: true, completion: nil)
+    }
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "goToList" {
+            let controller = segue.destination as! TodoListViewController
+            
+            controller.selectedCategory = selectedCategory
+        }
     }
     
 }

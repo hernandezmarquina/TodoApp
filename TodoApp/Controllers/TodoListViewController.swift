@@ -11,9 +11,16 @@ import CoreData
 
 class TodoListViewController: UITableViewController {
     
+    var selectedCategory: Category? {
+        
+        didSet{
+            managedObjectContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+            loadItems()
+        }
+    }
+    
     var managedObjectContext : NSManagedObjectContext?
     var fetchedResultsController : NSFetchedResultsController<Item>!
-    var fetchRequest : NSFetchRequest<Item>!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,12 +29,6 @@ class TodoListViewController: UITableViewController {
         // Local data File path
         //print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
         
-        managedObjectContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-        
-        fetchRequest = Item.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor (key: "title", ascending: true)]
-        
-        loadItems()
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -92,6 +93,7 @@ class TodoListViewController: UITableViewController {
         let item = Item(context: managedObjectContext!)
         item.title = title
         item.done = false
+        item.parentCategory = selectedCategory
         
         updateItem()
     }
@@ -106,7 +108,22 @@ class TodoListViewController: UITableViewController {
         }
     }
     
-    func loadItems(){
+    func loadItems(with searchPredicate: NSPredicate? = nil){
+        
+        let fetchRequest : NSFetchRequest = Item.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor (key: "title", ascending: true)]
+        
+        let categoryPredicate = NSPredicate(format: "parentCategory.name MATCHES %@", selectedCategory!.name!)
+        
+        if let predicate = searchPredicate {
+            
+            fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [categoryPredicate, predicate])
+            
+        }else{
+            
+            fetchRequest.predicate = categoryPredicate
+            
+        }
         
         fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
                                                               managedObjectContext: managedObjectContext!, sectionNameKeyPath: nil, cacheName: nil)
@@ -130,16 +147,13 @@ extension TodoListViewController : UISearchBarDelegate {
         
         let predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)
         
-        fetchRequest.predicate = predicate
-        
-        loadItems()
+        loadItems(with: predicate)
         
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
        
         if searchBar.text?.count == 0 {
-            fetchRequest.predicate = nil
             loadItems()
             
             DispatchQueue.main.async {
