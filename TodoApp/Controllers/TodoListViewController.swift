@@ -14,8 +14,6 @@ class TodoListViewController: UITableViewController {
     var managedObjectContext : NSManagedObjectContext?
     var fetchedResultsController : NSFetchedResultsController<Item>!
     var fetchRequest : NSFetchRequest<Item>!
-    
-    let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist")
 
     override func viewDidLoad() {
         super.viewDidLoad()
