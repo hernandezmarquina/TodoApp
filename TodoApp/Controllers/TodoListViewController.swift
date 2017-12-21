@@ -8,9 +8,12 @@
 
 import UIKit
 import CoreData
+import ChameleonFramework
 
 class TodoListViewController: SwipeTableViewController {
     
+    @IBOutlet weak var searchBar: UISearchBar!
+    var numberOfRows = 0
     var selectedCategory: Category? {
         
         didSet{
@@ -29,14 +32,42 @@ class TodoListViewController: SwipeTableViewController {
         // Local data File path
         //print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
         
-        tableView.rowHeight = 80.0
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
+        if let colorHex  = selectedCategory?.color {
+            title = selectedCategory?.name
+            updateNavigationBar(with: colorHex)
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        updateNavigationBar(with: UIColor.flatSkyBlue.hexValue())
+    }
+    
+    private func updateNavigationBar(with colorHex: String) {
+        
+        let color = UIColor(hexString: colorHex)
+        let constrastColor = ContrastColorOf(color!, returnFlat: true)
+        
+        let navigationBar = navigationController?.navigationBar
+        navigationBar?.barTintColor = color
+        navigationBar?.tintColor = constrastColor
+        navigationBar?.largeTitleTextAttributes = [NSAttributedStringKey.foregroundColor : constrastColor]
+        searchBar.barTintColor = color
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let item = fetchedResultsController.object(at: indexPath)
         let cell = super.tableView(tableView, cellForRowAt: indexPath)
+        
+        let color = UIColor(hexString: (selectedCategory?.color)!)
+        let darkenColor = color?.darken(byPercentage: (CGFloat(indexPath.row) / CGFloat(numberOfRows)))
+        cell.backgroundColor = darkenColor
+        cell.textLabel?.textColor = ContrastColorOf(darkenColor!, returnFlat: true)
         
         cell.accessoryType  = item.done ? .checkmark : .none
         cell.textLabel?.text = item.title
@@ -45,7 +76,8 @@ class TodoListViewController: SwipeTableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return fetchedResultsController.sections?[section].numberOfObjects ?? 0
+        numberOfRows = fetchedResultsController.sections?[section].numberOfObjects ?? 0
+        return numberOfRows
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -110,7 +142,7 @@ class TodoListViewController: SwipeTableViewController {
         }
     }
     
-    func loadItems(with searchPredicate: NSPredicate? = nil){
+    func loadItems(with searchPredicate: NSPredicate? = nil) {
         
         let fetchRequest : NSFetchRequest = Item.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor (key: "title", ascending: true)]

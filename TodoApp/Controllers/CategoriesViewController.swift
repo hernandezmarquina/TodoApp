@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import CoreData
+import ChameleonFramework
 
 class CategoriesViewController: SwipeTableViewController {
     
@@ -27,8 +28,14 @@ class CategoriesViewController: SwipeTableViewController {
         fetchRequest.sortDescriptors = [NSSortDescriptor (key: "name", ascending: true)]
         
         loadCategories()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         
-        tableView.rowHeight = 80.0
+        if var navigationBar = navigationController?.navigationBar {
+            navigationBar.largeTitleTextAttributes = [NSAttributedStringKey.foregroundColor : UIColor.white]
+        }
+        
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -37,6 +44,10 @@ class CategoriesViewController: SwipeTableViewController {
         
         let cell  = super.tableView(tableView, cellForRowAt: indexPath)
         cell.textLabel?.text = item.name
+        
+        let color = UIColor(hexString: item.color!)
+        cell.backgroundColor = color
+        cell.textLabel?.textColor = ContrastColorOf(color!, returnFlat: true)
         
         return cell
         
@@ -50,6 +61,7 @@ class CategoriesViewController: SwipeTableViewController {
         
         let category = Category(context: managedObjectContext!)
         category.name = name
+        category.color = UIColor.randomFlat.hexValue()
         
         updateManagedObjectContext()
     }
