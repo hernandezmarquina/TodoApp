@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import CoreData
 
-class CategoriesViewController: UITableViewController {
+class CategoriesViewController: SwipeTableViewController {
     
     var managedObjectContext : NSManagedObjectContext?
     var fetchedResultsController : NSFetchedResultsController<Category>!
@@ -27,13 +27,15 @@ class CategoriesViewController: UITableViewController {
         fetchRequest.sortDescriptors = [NSSortDescriptor (key: "name", ascending: true)]
         
         loadCategories()
+        
+        tableView.rowHeight = 80.0
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell  = tableView.dequeueReusableCell(withIdentifier: "categoryItemCell", for: indexPath)
         let item = fetchedResultsController.object(at: indexPath)
         
+        let cell  = super.tableView(tableView, cellForRowAt: indexPath)
         cell.textLabel?.text = item.name
         
         return cell
@@ -49,6 +51,10 @@ class CategoriesViewController: UITableViewController {
         let category = Category(context: managedObjectContext!)
         category.name = name
         
+        updateManagedObjectContext()
+    }
+    
+    private func updateManagedObjectContext(){
         do {
             try managedObjectContext?.save()
             loadCategories()
@@ -71,7 +77,6 @@ class CategoriesViewController: UITableViewController {
         }
         
         tableView.reloadData()
-        
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -120,4 +125,14 @@ class CategoriesViewController: UITableViewController {
         }
     }
     
+    override func updateManagedObjectModel(at indexPath: IndexPath) {
+        
+        let categoryItem = self.fetchedResultsController.object(at: indexPath)
+        
+        self.managedObjectContext?.delete(categoryItem)
+        
+        self.updateManagedObjectContext()
+    }
+    
 }
+

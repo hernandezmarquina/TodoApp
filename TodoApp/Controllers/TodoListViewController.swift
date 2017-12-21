@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class TodoListViewController: UITableViewController {
+class TodoListViewController: SwipeTableViewController {
     
     var selectedCategory: Category? {
         
@@ -29,12 +29,14 @@ class TodoListViewController: UITableViewController {
         // Local data File path
         //print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
         
+        tableView.rowHeight = 80.0
+        
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell  = tableView.dequeueReusableCell(withIdentifier: "toDoItemCell", for: indexPath)
         let item = fetchedResultsController.object(at: indexPath)
+        let cell = super.tableView(tableView, cellForRowAt: indexPath)
         
         cell.accessoryType  = item.done ? .checkmark : .none
         cell.textLabel?.text = item.title
@@ -138,6 +140,15 @@ class TodoListViewController: UITableViewController {
         
         tableView.reloadData()
         
+    }
+    
+    override func updateManagedObjectModel(at indexPath: IndexPath) {
+        
+        let categoryItem = self.fetchedResultsController.object(at: indexPath)
+        
+        self.managedObjectContext?.delete(categoryItem)
+        
+        loadItems()
     }
 }
 
