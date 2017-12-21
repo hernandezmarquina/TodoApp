@@ -13,6 +13,7 @@ class CategoriesViewController: UITableViewController {
     
     var managedObjectContext : NSManagedObjectContext?
     var fetchedResultsController : NSFetchedResultsController<Item>!
+    var fetchRequest : NSFetchRequest<Item>!
     
     let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist")
 
@@ -24,6 +25,9 @@ class CategoriesViewController: UITableViewController {
         //print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
         
         managedObjectContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        
+        fetchRequest = Item.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor (key: "title", ascending: true)]
         
         loadItems()
     }
@@ -91,31 +95,20 @@ class CategoriesViewController: UITableViewController {
         item.title = title
         item.done = false
         
-        do {
-          try managedObjectContext?.save()
-        } catch {
-            print("Error encoding item array, \(error)")
-        }
-        
-        loadItems()
+        updateItem()
     }
     
     func updateItem(){
         
         do {
             try managedObjectContext?.save()
+            loadItems()
         } catch {
             print("Error encoding item array, \(error)")
         }
-        
-        loadItems()
     }
     
     func loadItems(){
-        
-        
-        let fetchRequest : NSFetchRequest<Item> = Item.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor (key: "title", ascending: true)]
         
         fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
                                                               managedObjectContext: managedObjectContext!, sectionNameKeyPath: nil, cacheName: nil)
@@ -131,7 +124,30 @@ class CategoriesViewController: UITableViewController {
         tableView.reloadData()
         
     }
-    
+}
 
+extension CategoriesViewController : UISearchBarDelegate {
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        
+        let predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)
+        
+        fetchRequest.predicate = predicate
+        
+        loadItems()
+        
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+       
+        if searchBar.text?.count == 0 {
+            fetchRequest.predicate = nil
+            loadItems()
+            
+            DispatchQueue.main.async {
+                searchBar.resignFirstResponder()
+            }
+        }
+    }
 }
 
