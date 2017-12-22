@@ -1,0 +1,17 @@
+/* 
+  Localizable.strings
+  TodoApp
+
+  Created by Jonathan Hernandez on 12/22/17.
+  Copyright © 2017 Jonathan Hdez. All rights reserved.
+*/
+
+"Add new Task" = "Agregar Tarea";
+"Title" = "Titulo";
+"Add" = "Agregar";
+"Cancel" = "Cancelar";
+
+"Add new Category" = "Agregar Categoria";
+"Name" = "Nombre";
+"Save" = "Guardar";
+"Delete" = "Eliminar";

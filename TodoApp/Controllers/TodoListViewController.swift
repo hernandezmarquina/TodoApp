@@ -97,21 +97,21 @@ class TodoListViewController: SwipeTableViewController {
     
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         
-        let alertContoller = UIAlertController(title: "Add New Todo Item", message: "", preferredStyle: .alert)
+        let alertContoller = UIAlertController(title: NSLocalizedString("Add new Task", comment: ""), message: "", preferredStyle: .alert)
         
         var textField = UITextField()
         
         alertContoller.addTextField { (alertTextField) in
-            alertTextField.placeholder = "Create new item"
+            alertTextField.placeholder = NSLocalizedString("Title", comment: "")
             textField = alertTextField
         }
         
-        let action = UIAlertAction(title: "Add Item", style: .default) {(action) in
+        let action = UIAlertAction(title: NSLocalizedString("Add", comment: ""), style: .default) {(action) in
             
-            self.saveItem(title: textField.text ?? "New Item")
+            self.saveItem(title: textField.text ?? "New Task")
         }
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) {(action) in
+        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel) {(action) in
             
         }
         

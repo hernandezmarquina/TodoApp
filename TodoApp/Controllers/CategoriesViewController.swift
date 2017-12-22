@@ -32,7 +32,7 @@ class CategoriesViewController: SwipeTableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         
-        if var navigationBar = navigationController?.navigationBar {
+        if let navigationBar = navigationController?.navigationBar {
             navigationBar.largeTitleTextAttributes = [NSAttributedStringKey.foregroundColor : UIColor.white]
         }
         
@@ -103,21 +103,21 @@ class CategoriesViewController: SwipeTableViewController {
     
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         
-        let alertContoller = UIAlertController(title: "Add New Category", message: "", preferredStyle: .alert)
+        let alertContoller = UIAlertController(title: NSLocalizedString("Add new Category", comment: ""), message: "", preferredStyle: .alert)
         
         var textField = UITextField()
         
         alertContoller.addTextField { (alertTextField) in
-            alertTextField.placeholder = "Category Name"
+            alertTextField.placeholder = NSLocalizedString("Name", comment: "")
             textField = alertTextField
         }
         
-        let action = UIAlertAction(title: "Save", style: .default) {(action) in
+        let action = UIAlertAction(title: NSLocalizedString("Save", comment: ""), style: .default) {(action) in
             
             self.saveCategory(with: textField.text ?? "New Category")
         }
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) {(action) in
+        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel) {(action) in
             
         }
         

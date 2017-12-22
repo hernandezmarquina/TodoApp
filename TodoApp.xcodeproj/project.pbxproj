@@ -15,6 +15,7 @@
 		AB4A75FC1FE8E1F300E2B2BB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AB4A75FA1FE8E1F300E2B2BB /* Main.storyboard */; };
 		AB4A75FE1FE8E1F300E2B2BB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB4A75FD1FE8E1F300E2B2BB /* Assets.xcassets */; };
 		AB4A76011FE8E1F300E2B2BB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AB4A75FF1FE8E1F300E2B2BB /* LaunchScreen.storyboard */; };
+		ABEA7EAF1FED7E55002F3CC9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = ABEA7EB11FED7E55002F3CC9 /* Localizable.strings */; };
 		EF7867089B4C95E6B9070115 /* Pods_TodoApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 028201E709EA1C693B28C45B /* Pods_TodoApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -30,6 +31,10 @@
 		AB4A75FD1FE8E1F300E2B2BB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AB4A76001FE8E1F300E2B2BB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AB4A76021FE8E1F400E2B2BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		ABEA7EAB1FED7D66002F3CC9 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Main.strings; sourceTree = "<group>"; };
+		ABEA7EAC1FED7D66002F3CC9 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		ABEA7EB01FED7E55002F3CC9 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		ABEA7EB21FED7E5B002F3CC9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D8BE2ED46D45F3842CFC3BE9 /* Pods-TodoApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TodoApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-TodoApp/Pods-TodoApp.release.xcconfig"; sourceTree = "<group>"; };
 		F4A7CB20ECD5C83765979FC8 /* Pods-TodoApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TodoApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TodoApp/Pods-TodoApp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -105,9 +110,9 @@
 		AB4A76091FE8E29800E2B2BB /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				ABEA7EB31FED8259002F3CC9 /* CustomControllers */,
 				AB4A75F81FE8E1F300E2B2BB /* TodoListViewController.swift */,
 				AB340F8C1FEB427B009D79E1 /* CategoriesViewController.swift */,
-				AB340F8E1FEB7DD1009D79E1 /* SwipeTableViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -125,8 +130,17 @@
 			children = (
 				AB4A75F61FE8E1F300E2B2BB /* AppDelegate.swift */,
 				AB4A75FD1FE8E1F300E2B2BB /* Assets.xcassets */,
+				ABEA7EB11FED7E55002F3CC9 /* Localizable.strings */,
 			);
 			path = "Supporting files";
+			sourceTree = "<group>";
+		};
+		ABEA7EB31FED8259002F3CC9 /* CustomControllers */ = {
+			isa = PBXGroup;
+			children = (
+				AB340F8E1FEB7DD1009D79E1 /* SwipeTableViewController.swift */,
+			);
+			path = CustomControllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -192,6 +206,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AB4A76011FE8E1F300E2B2BB /* LaunchScreen.storyboard in Resources */,
+				ABEA7EAF1FED7E55002F3CC9 /* Localizable.strings in Resources */,
 				AB4A75FE1FE8E1F300E2B2BB /* Assets.xcassets in Resources */,
 				AB4A75FC1FE8E1F300E2B2BB /* Main.storyboard in Resources */,
 			);
@@ -275,6 +290,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				AB4A75FB1FE8E1F300E2B2BB /* Base */,
+				ABEA7EAB1FED7D66002F3CC9 /* es */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -283,8 +299,18 @@
 			isa = PBXVariantGroup;
 			children = (
 				AB4A76001FE8E1F300E2B2BB /* Base */,
+				ABEA7EAC1FED7D66002F3CC9 /* es */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		ABEA7EB11FED7E55002F3CC9 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				ABEA7EB01FED7E55002F3CC9 /* es */,
+				ABEA7EB21FED7E5B002F3CC9 /* en */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -294,6 +320,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -351,6 +378,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
